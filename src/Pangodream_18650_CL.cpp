@@ -64,12 +64,12 @@ double Pangodream_18650_CL::getConvFactor()
 {
     return _convFactor;
 }
-    
+
 /**
  * Loads each voltage value in its matching charge element (index)
  */
 void Pangodream_18650_CL::_initVoltsArray(){
-    _vs[0] = 3.200; 
+    _vs[0] = 3.200;
     _vs[1] = 3.250; _vs[2] = 3.300; _vs[3] = 3.350; _vs[4] = 3.400; _vs[5] = 3.450;
     _vs[6] = 3.500; _vs[7] = 3.550; _vs[8] = 3.600; _vs[9] = 3.650; _vs[10] = 3.700;
     _vs[11] = 3.703; _vs[12] = 3.706; _vs[13] = 3.710; _vs[14] = 3.713; _vs[15] = 3.716;
@@ -101,18 +101,19 @@ int Pangodream_18650_CL::getBatteryChargeLevel()
 }
 
 int Pangodream_18650_CL::pinRead(){
-    return _analogRead(_addressPin); 
+    return _analogRead(_addressPin);
 }
 
 int Pangodream_18650_CL::_analogRead(int pinNumber){
     int totalValue = 0;
     int averageValue = 0;
-    for(int i = 0; i < _reads; i++){
-       totalValue += analogRead(pinNumber);
+    for (int i = 0; i < _reads; i++){
+        totalValue += analogRead(pinNumber);
     }
     averageValue = totalValue / _reads;
-    return averageValue; 
+    return averageValue;
 }
+
 /**
  * Performs a binary search to find the index corresponding to a voltage.
  * The index of the array is the charge %
@@ -127,10 +128,10 @@ int Pangodream_18650_CL::_getChargeLevel(double volts){
   if (volts <= 3.2){
     return 0;
   }
-  while(true){
+  while (true){
     half = abs(idx - prev) / 2;
     prev = idx;
-    if(volts >= _vs[idx]){
+    if (volts >= _vs[idx]){
       idx = idx + half;
     }else{
       idx = idx - half;
@@ -143,7 +144,7 @@ int Pangodream_18650_CL::_getChargeLevel(double volts){
 }
 
 double Pangodream_18650_CL::_analogReadToVolts(int readValue){
-  double volts; 
+  double volts;
   volts = readValue * _convFactor / 1000;
   return volts;
 }

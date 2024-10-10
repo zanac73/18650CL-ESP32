@@ -25,9 +25,9 @@
 /* 
  *  18650 Ion-Li battery charge
  */
-  
-#ifndef Pangodream_18650_CL_h
-#define Pangodream_18650_CL_h
+
+#ifndef LIB_18650CL_SRC_PANGODREAM_18650_CL_H_
+#define LIB_18650CL_SRC_PANGODREAM_18650_CL_H_
 
 #include "Arduino.h"
 
@@ -39,22 +39,21 @@
  * 18650 Ion-Li battery charge
  * Calculates charge level of an 18650 Ion-Li battery
  */
-class Pangodream_18650_CL {    
-  public:  
-    
+class Pangodream_18650_CL {
+  public:
     /*
     * Constructor
     * @param addressPin, ADC pin number where the voltage divider is connected to
     */
-    Pangodream_18650_CL(int addressPin);
-    
+    explicit Pangodream_18650_CL(int addressPin);
+
     /*
     * Constructor
     * @param addressPin, ADC pin number where the voltage divider is connected to
     * @param convFactor, Convertion factor for analog read units to volts
     */
     Pangodream_18650_CL(int addressPin, double convFactor);
-    
+
     /*
     * Constructor
     * @param addressPin, ADC pin number where the voltage divider is connected to
@@ -65,7 +64,7 @@ class Pangodream_18650_CL {
     /*
     * Constructor
     */
-    Pangodream_18650_CL();    
+    Pangodream_18650_CL();
 
     /*
      * Get the battery charge level (0-100)
@@ -76,19 +75,17 @@ class Pangodream_18650_CL {
     int getAnalogPin();
     int pinRead();
     double getConvFactor();
-       
-  private:
 
+  private:
     int    _addressPin;               //!< ADC pin used, default is GPIO34 - ADC1_6
     int    _reads;                    //Number of reads of ADC pin to calculate an average value
     double _convFactor;               //!< Convertion factor to translate analog units to volts
-    double _vs[101];                 //Array with voltage - charge definitions
-    
+    double _vs[101];                  //Array with voltage - charge definitions
+
     void   _initVoltsArray();
     int    _getChargeLevel(double volts);
     int    _analogRead(int pinNumber);
     double _analogReadToVolts(int readValue);
-    
 };
 
-#endif
+#endif // LIB_18650CL_SRC_PANGODREAM_18650_CL_H_"
