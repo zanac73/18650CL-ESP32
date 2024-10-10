@@ -75,6 +75,7 @@ class Pangodream_18650_CL {
     int getAnalogPin();
     int pinRead();
     double getConvFactor();
+    int _getChargeLevel(double volts);
 
   private:
     int    _addressPin;               //!< ADC pin used, default is GPIO34 - ADC1_6
@@ -82,10 +83,9 @@ class Pangodream_18650_CL {
     double _convFactor;               //!< Convertion factor to translate analog units to volts
     double _vs[101];                  //Array with voltage - charge definitions
 
-    void   _initVoltsArray();
-    int    _getChargeLevel(double volts);
+    void _initVoltsArray();
     int    _analogRead(int pinNumber);
     double _analogReadToVolts(int readValue);
 };
 
-#endif // LIB_18650CL_SRC_PANGODREAM_18650_CL_H_"
+#endif // LIB_18650CL_SRC_PANGODREAM_18650_CL_H_

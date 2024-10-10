@@ -94,8 +94,19 @@ void Pangodream_18650_CL::_initVoltsArray(){
 
 int Pangodream_18650_CL::getBatteryChargeLevel()
 {
+#ifdef ARDUINO_ARCH_ESP32
+    int totalValue = 0;
+    int averageValue = 0;
+    for (int i = 0; i < _reads; i++)
+    {
+        totalValue += analogReadMilliVolts(_addressPin) / 1000;
+    }
+    double volts = totalValue / _reads;
+
+#else
     int readValue = _analogRead(_addressPin);
     double volts = _analogReadToVolts(readValue);
+#endif
     int chargeLevel = _getChargeLevel(volts);
     return chargeLevel;
 }
@@ -150,6 +161,11 @@ double Pangodream_18650_CL::_analogReadToVolts(int readValue){
 }
 
 double Pangodream_18650_CL::getBatteryVolts(){
+#ifdef ARDUINO_ARCH_ESP32
+    int readValue = analogReadMilliVolts(_addressPin) / 1000;
+    return readValue;
+#else
     int readValue = analogRead(_addressPin);
     return _analogReadToVolts(readValue);
+#endif
 }
